@@ -56,6 +56,8 @@ const map = new Map({
     center: getCenter(extent),
     zoom: 2,
     maxZoom: 11,
+    pinchRotate: false,
+    enableRotation: false,
   }),
 });
 
