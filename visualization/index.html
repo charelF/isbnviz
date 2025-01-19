@@ -1,13 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Static Image</title>
+    <link rel="stylesheet" href="node_modules/ol/ol.css">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh; /* Full viewport height */
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .map {
+            width: 80%;
+            height: 600px;
+        }
+
+        #map {
+            position: relative;
+        }
+
+        #info {
+            position: absolute;
+            display: inline-block;
+            height: 50px;
+            width: 50px;
+            z-index: 100;
+            background: #00000099;
+            color: #ffffff;
+            font-family: monospace;
+            text-align:justify;
+            visibility: hidden;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map" class="map">
+        <div id="info"></div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+</body>
+
 </html>
