@@ -32,7 +32,7 @@ const vectorLayer2 = new VectorLayer({
 // Setup Zoomify source with adjusted positioning
 const retinaPixelRatio = 2;
 const retinaSource = new Zoomify({
-  url: 'zoomify/test1/',
+  url: 'zoomify/image/',
   size: [4096, 4096],
   crossOrigin: 'anonymous',
   projection: projection,
