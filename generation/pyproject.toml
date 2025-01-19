@@ -1,0 +1,18 @@
+[project]
+name = "generation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "bencode-py>=4.0.0",
+    "isbnlib>=3.10.14",
+    "matplotlib>=3.10.0",
+    "notebook>=7.3.2",
+    "numpy>=2.2.2",
+    "numpy-hilbert-curve>=1.0.1",
+    "pillow>=11.1.0",
+    "shapely>=2.0.6",
+    "tqdm>=4.67.1",
+    "zstandard>=0.23.0",
+]

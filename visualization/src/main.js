@@ -37,7 +37,6 @@ const vectorLayer2 = new VectorLayer({
   source: vectorSource2
 });
 
-
 const imagelayer = new ImageLayer({
     source: new Static({
         url: '/image.png',
@@ -63,7 +62,34 @@ const map = new Map({
     }),
 });
 
-vectorLayer2.setOpacity(0.5)
+
+const geojsonFolder = 'geojson/';
+
+// Define the range of files (assuming files are named 1.json, 2.json, ..., n.json)
+const fileCount = 2; // Replace with the total number of files or a large range to try
+
+for (let i = 1; i <= fileCount; i++) {
+  const fileName = `${i}.json`;
+
+  const vectorSource = new VectorSource({
+    url: `${geojsonFolder}${fileName}`,
+    format: new GeoJSON({
+      dataProjection: projection,    // The projection of your GeoJSON data
+      featureProjection: projection  // The projection you want to use in the map
+    }),
+  });
+
+  const vectorLayer = new VectorLayer({
+    source: vectorSource,
+  });
+
+  map.addLayer(vectorLayer); // Assuming 'map' is your OpenLayers map instance
+}
+
+
+
+
+// vectorLayer2.setOpacity(0.5)
 imagelayer.setOpacity(0.4)
 
 
