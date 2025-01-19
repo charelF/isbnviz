@@ -11,14 +11,12 @@ import { getCenter } from 'ol/extent.js';
 // Define the extent to match your GeoJSON coordinates
 const extent = [0, 0, 4096, 4096];
 
-// Use the same projection setup that works with the static image
 const projection = new Projection({
   code: 'isbn-image',
   units: 'pixels',
   extent: extent,
 });
 
-// Create vector layer with exact same setup as working example
 const vectorSource2 = new VectorSource({
   url: 'geo.json',
   format: new GeoJSON({
@@ -31,24 +29,25 @@ const vectorLayer2 = new VectorLayer({
   source: vectorSource2
 });
 
-// Setup Zoomify source
+// Setup Zoomify source with adjusted positioning
 const retinaPixelRatio = 2;
 const retinaSource = new Zoomify({
-  url: 'https://ol-zoomify.surge.sh/zoomify/',
-  size: [4096, 4096], // Match the extent size
+  url: 'zoomify/test1/',
+  size: [4096, 4096],
   crossOrigin: 'anonymous',
-  projection: projection,  // Use same projection
+  projection: projection,
+  interpolate: false,
   zDirection: -1,
   tilePixelRatio: retinaPixelRatio,
   tileSize: 256 / retinaPixelRatio,
+  extent: extent  // Set the same extent as the projection
 });
 
-// Create Zoomify layer
 const zoomifyLayer = new TileLayer({
   source: retinaSource,
+  extent: extent  // Also set extent on the layer itself
 });
 
-// Create map with same view setup as working example
 const map = new Map({
   layers: [zoomifyLayer, vectorLayer2],
   target: 'map',
@@ -60,4 +59,4 @@ const map = new Map({
   }),
 });
 
-zoomifyLayer.setOpacity(0.5);
+zoomifyLayer.setOpacity(1);

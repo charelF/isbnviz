@@ -501,6 +501,7 @@ dependencies = [
     { name = "numpy" },
     { name = "numpy-hilbert-curve" },
     { name = "pillow" },
+    { name = "pyvips" },
     { name = "shapely" },
     { name = "tqdm" },
     { name = "zstandard" },
@@ -515,6 +516,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.2.2" },
     { name = "numpy-hilbert-curve", specifier = ">=1.0.1" },
     { name = "pillow", specifier = ">=11.1.0" },
+    { name = "pyvips", extras = ["binary"], specifier = ">=2.2.3" },
     { name = "shapely", specifier = ">=2.0.6" },
     { name = "tqdm", specifier = ">=4.67.1" },
     { name = "zstandard", specifier = ">=0.23.0" },
@@ -1366,6 +1368,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pkgconfig"
+version = "1.5.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/c4/e0/e05fee8b5425db6f83237128742e7e5ef26219b687ab8f0d41ed0422125e/pkgconfig-1.5.5.tar.gz", hash = "sha256:deb4163ef11f75b520d822d9505c1f462761b4309b1bb713d08689759ea8b899", size = 6082 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/af/89487c7bbf433f4079044f3dc32f9a9f887597fe04614a37a292e373e16b/pkgconfig-1.5.5-py3-none-any.whl", hash = "sha256:d20023bbeb42ee6d428a0fac6e0904631f545985a10cdd71a20aa58bc47a4209", size = 6732 },
+]
+
+[[package]]
 name = "platformdirs"
 version = "4.3.6"
 source = { registry = "https://pypi.org/simple" }
@@ -1475,6 +1486,16 @@ sdist = { url = "https://files.pythonhosted.org/packages/e3/c4/358cd13daa1d912ef
 wheels = [
     { url = "https://files.pythonhosted.org/packages/4b/72/2f30cf26664fcfa0bd8ec5ee62ec90c03bd485e4a294d92aabc76c5203a5/python_json_logger-3.2.1-py3-none-any.whl", hash = "sha256:cdc17047eb5374bd311e748b42f99d71223f3b0e186f4206cc5d52aefe85b090", size = 14924 },
 ]
+
+[[package]]
+name = "pyvips"
+version = "2.2.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "cffi" },
+    { name = "pkgconfig" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7b/88/f73dae807ec68b228fba72507105e3ba80a561dc0bade0004ce24fd118fc/pyvips-2.2.3.tar.gz", hash = "sha256:43bceced0db492654c93008246a58a508e0373ae1621116b87b322f2ac72212f", size = 56626 }
 
 [[package]]
 name = "pywin32"

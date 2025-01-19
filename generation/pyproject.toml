@@ -12,6 +12,7 @@ dependencies = [
     "numpy>=2.2.2",
     "numpy-hilbert-curve>=1.0.1",
     "pillow>=11.1.0",
+    "pyvips[binary]>=2.2.3",
     "shapely>=2.0.6",
     "tqdm>=4.67.1",
     "zstandard>=0.23.0",
