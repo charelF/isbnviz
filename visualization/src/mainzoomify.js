@@ -30,21 +30,21 @@ const vectorLayer2 = new VectorLayer({
 });
 
 // Setup Zoomify source with adjusted positioning
-const retinaPixelRatio = 2;
-const retinaSource = new Zoomify({
+const ratio = 3;
+const source = new Zoomify({
   url: 'zoomify/image/',
   size: [4096, 4096],
   crossOrigin: 'anonymous',
   projection: projection,
   interpolate: false,
   zDirection: -1,
-  tilePixelRatio: retinaPixelRatio,
-  tileSize: 256 / retinaPixelRatio,
+  tilePixelRatio: ratio,
+  tileSize: 256 / ratio,
   extent: extent  // Set the same extent as the projection
 });
 
 const zoomifyLayer = new TileLayer({
-  source: retinaSource,
+  source: source,
   extent: extent  // Also set extent on the layer itself
 });
 
