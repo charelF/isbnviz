@@ -7,6 +7,8 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import { getCenter } from 'ol/extent.js';
+import {FullScreen, defaults as defaultControls} from 'ol/control.js';
+
 
 // Define the extent to match your GeoJSON coordinates
 const extent = [0, 0, 4096, 4096];
@@ -50,11 +52,12 @@ const zoomifyLayer = new TileLayer({
 
 const map = new Map({
   layers: [zoomifyLayer, vectorLayer2],
+  controls: defaultControls().extend([new FullScreen()]),
   target: 'map',
   view: new View({
     projection: projection,
     center: getCenter(extent),
-    zoom: 2,
+    zoom: 1,
     maxZoom: 11,
     pinchRotate: false,
     enableRotation: false,
