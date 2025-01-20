@@ -35,14 +35,14 @@ const vectorLayer2 = new VectorLayer({
 });
 
 // Setup Zoomify source with adjusted positioning
-const ratio = 1;
+const ratio = 2;
 const source = new Zoomify({
   url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png/{TileGroup}/{z}-{x}-{y}.png',
   size: [N, N/2],
   crossOrigin: 'anonymous',
   projection: projection,
   interpolate: false,
-  zDirection: 1,
+  zDirection: 0,
   tilePixelRatio: ratio,
   tileSize: tilesize / ratio,
   extent: extent  // Set the same extent as the projection
