@@ -21,3 +21,20 @@ Other interesting links
 - https://www.rijksmuseum.nl/en/stories/operation-night-watch/story/ultra-high-resolution-photo
 - isbn countries: https://github.com/xlcnd/isbnlib/blob/dev/isbnlib/_data/data4info.py
 
+
+
+CF pages file limits:
+https://developers.cloudflare.com/pages/platform/limits/
+- max: 20_000 files
+- max file size: 25 MiB
+
+- find biggest one macos `charelfelten@Charels-MacBook-Pro-2 gbooks_q100_N4294967296_t2048 % find . -type f -exec du -h {} + | sort -rh | head -n 10`
+
+- find amount: `find . -type f | wc -l`
+
+
+for some reason, openlayers zoomify has unsharp tiles for size 1024 and 2048, but they are sharp for 4096
+
+
+possible improvements:
+- fake the lower half / or remove it.

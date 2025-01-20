@@ -10,8 +10,11 @@ import { getCenter } from 'ol/extent.js';
 import {FullScreen, defaults as defaultControls} from 'ol/control.js';
 
 
+const N = 2**16
+const tilesize = 4096
+
 // Define the extent to match your GeoJSON coordinates
-const extent = [0, 0, 4096, 4096];
+const extent = [0, 0, N, N/2];
 
 const projection = new Projection({
   code: 'isbn-image',
@@ -32,16 +35,16 @@ const vectorLayer2 = new VectorLayer({
 });
 
 // Setup Zoomify source with adjusted positioning
-const ratio = 3;
+const ratio = 1;
 const source = new Zoomify({
-  url: 'zoomify/image/',
-  size: [4096, 4096],
+  url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png/{TileGroup}/{z}-{x}-{y}.png',
+  size: [N, N/2],
   crossOrigin: 'anonymous',
   projection: projection,
   interpolate: false,
-  zDirection: -1,
+  zDirection: 1,
   tilePixelRatio: ratio,
-  tileSize: 256 / ratio,
+  tileSize: tilesize / ratio,
   extent: extent  // Set the same extent as the projection
 });
 
@@ -58,7 +61,7 @@ const map = new Map({
     projection: projection,
     center: getCenter(extent),
     zoom: 1,
-    maxZoom: 11,
+    maxZoom: 12,
     pinchRotate: false,
     enableRotation: false,
   }),
