@@ -23,7 +23,7 @@ Other interesting links
 
 
 
-CF pages file limits:
+Cloudflare Pages file limits:
 https://developers.cloudflare.com/pages/platform/limits/
 - max: 20_000 files
 - max file size: 25 MiB

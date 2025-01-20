@@ -25,16 +25,17 @@ const projection = new Projection({
     extent: extent,
 });
 
-const vectorSource2 = new VectorSource({
-  url: 'geo.json',
-  format: new GeoJSON({
-    dataProjection: projection,    // The projection of your GeoJSON data
-    featureProjection: projection  // The projection you want to use in the map
-  })
-});
-
-const vectorLayer2 = new VectorLayer({
-  source: vectorSource2
+const vectorLayerAll = new VectorLayer({
+  source: new VectorSource({
+    url: 'geo.json',
+    format: new GeoJSON({
+      dataProjection: projection,    
+      featureProjection: projection
+    }),
+    }),
+  style: {
+    'fill-color': ['string', ['get', 'COLOR'], '#ff4488'],
+  },
 });
 
 const imagelayer = new ImageLayer({
@@ -46,12 +47,10 @@ const imagelayer = new ImageLayer({
     }),
 })
 
-
 const map = new Map({
     layers: [
-        // vectorLayer, 
         imagelayer, 
-        vectorLayer2,
+        vectorLayerAll,
     ],
     target: 'map',
     view: new View({
@@ -62,51 +61,23 @@ const map = new Map({
     }),
 });
 
-
-const geojsonFolder = 'geojson/';
-
-// Define the range of files (assuming files are named 1.json, 2.json, ..., n.json)
-const fileCount = 2; // Replace with the total number of files or a large range to try
-
-for (let i = 1; i <= fileCount; i++) {
-  const fileName = `${i}.json`;
-
-  const vectorSource = new VectorSource({
-    url: `${geojsonFolder}${fileName}`,
-    format: new GeoJSON({
-      dataProjection: projection,    // The projection of your GeoJSON data
-      featureProjection: projection  // The projection you want to use in the map
-    }),
+const vectorLayerHighlight = new VectorLayer({
+    source: new VectorSource(),
+    map: map,
+    style: {
+        'stroke-color': ['string', ['get', 'COLOR'], '#ff4488'],
+        'stroke-width': 2,
+    },
   });
 
-  const vectorLayer = new VectorLayer({
-    source: vectorSource,
-  });
-
-  map.addLayer(vectorLayer); // Assuming 'map' is your OpenLayers map instance
-}
-
-
-
-
-// vectorLayer2.setOpacity(0.5)
+vectorLayerAll.setOpacity(0.2)
 imagelayer.setOpacity(0.4)
 
-
-//   const featureOverlay = new VectorLayer({
-//     source: new VectorSource(),
-//     map: map,
-//     style: {
-//       'stroke-color': 'rgba(255, 255, 255, 0.7)',
-//       'stroke-width': 2,
-//     },
-//   });
-
-//   let highlight;
-// const displayFeatureInfo = function (pixel) {
-//   const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
-//     return feature;
-//   });
+let highlight;
+const displayFeatureInfo = function (pixel) {
+  const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+    return feature;
+  });
 
 //   const info = document.getElementById('info');
 //   if (feature) {
@@ -115,29 +86,27 @@ imagelayer.setOpacity(0.4)
 //     info.innerHTML = '&nbsp;';
 //   }
 
-//   if (feature !== highlight) {
-//     if (highlight) {
-//       featureOverlay.getSource().removeFeature(highlight);
-//     }
-//     if (feature) {
-//       featureOverlay.getSource().addFeature(feature);
-//     }
-//     highlight = feature;
-//   }
-// };
+  if (feature !== highlight) {
+    if (highlight) {
+        vectorLayerHighlight.getSource().removeFeature(highlight);
+    }
+    if (feature) {
+        vectorLayerHighlight.getSource().addFeature(feature);
+    }
+    highlight = feature;
+  }
+};
 
-// map.on('pointermove', function (evt) {
-//   if (evt.dragging) {
-//     return;
-//   }
-//   displayFeatureInfo(evt.pixel);
-// });
+map.on('pointermove', function (event) {
+  if (event.dragging) {
+    return;
+  }
+  displayFeatureInfo(event.pixel);
+});
 
-// map.on('click', function (evt) {
-//   displayFeatureInfo(evt.pixel);
-// });
-
-
+map.on('click', function (event) {
+  displayFeatureInfo(event.pixel);
+});
 
 
 

@@ -43,7 +43,7 @@ const zdir = isMobile ? -1 : 1;
 console.log(isMobile, ratio, zdir)
 
 const source = new Zoomify({
-  url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png/{TileGroup}/{z}-{x}-{y}.png',
+  url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png_i/{TileGroup}/{z}-{x}-{y}.png',
   size: [N, N/2],
   crossOrigin: 'anonymous',
   projection: projection,
