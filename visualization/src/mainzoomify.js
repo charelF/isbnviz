@@ -42,8 +42,9 @@ const source = new Zoomify({
   crossOrigin: 'anonymous',
   projection: projection,
   interpolate: false,
-  zDirection: 0,
+  zDirection: -1,
   tilePixelRatio: ratio,
+//   transition: 0,
   tileSize: tilesize / ratio,
   extent: extent  // Set the same extent as the projection
 });
