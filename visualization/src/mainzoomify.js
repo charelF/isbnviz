@@ -35,16 +35,21 @@ const vectorLayer2 = new VectorLayer({
 });
 
 // Setup Zoomify source with adjusted positioning
-const ratio = 2;
+const isMobile = true///Mobi|Android/i.test(navigator.userAgent);
+const ratio = isMobile ? 1 : 2;
+const zdir = isMobile ? -1 : 1;
+// TODO: make the above settings
+
+console.log(isMobile, ratio, zdir)
+
 const source = new Zoomify({
   url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png/{TileGroup}/{z}-{x}-{y}.png',
   size: [N, N/2],
   crossOrigin: 'anonymous',
   projection: projection,
   interpolate: false,
-  zDirection: -1,
+  zDirection: zdir,
   tilePixelRatio: ratio,
-//   transition: 0,
   tileSize: tilesize / ratio,
   extent: extent  // Set the same extent as the projection
 });
