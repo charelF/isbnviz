@@ -112,6 +112,7 @@ const displayFeatureInfo = function (event) {
 
 map.on('pointermove', function (event) {
   if (event.dragging) {
+    info.style.visibility = 'hidden';  // for mobile
     return;
   }
   displayFeatureInfo(event);
