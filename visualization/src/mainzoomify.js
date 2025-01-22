@@ -8,7 +8,14 @@ import VectorSource from 'ol/source/Vector';
 import GeoJSON from 'ol/format/GeoJSON';
 import { getCenter } from 'ol/extent.js';
 import {FullScreen, defaults as defaultControls} from 'ol/control.js';
-
+import {
+    Circle as CircleStyle,
+    Fill,
+    Stroke,
+    Style,
+    Text,
+  } from 'ol/style.js';
+import Feature from 'ol/Feature';
 
 const N = 2**16
 const tilesize = 4096
@@ -36,6 +43,8 @@ const vectorLayerAll = new VectorLayer({
       'fill-color': ['string', ['get', 'C1'], '#ff4488'],
     },
   });
+
+vectorLayerAll.setOpacity(0.5)
 
 // Setup Zoomify source with adjusted positioning
 const isMobile = true///Mobi|Android/i.test(navigator.userAgent);
@@ -77,14 +86,41 @@ const map = new Map({
 });
 
 
+function polygonStyleFunction(feature, resolution) {
+    const geometry = feature.getGeometry();
+    const centroid = geometry.getExtent();
+
+    return new Style({
+      stroke: new Stroke({
+        color: feature.get('C7'),
+        width: 1,
+      }),
+      fill: new Fill({
+        color: feature.get('C3'),
+      }),
+    //   text: new Text({
+    //     text: feature.get('NAME'),
+    //     font: '12px sans-serif',  // You can modify the font and style as needed
+    //     fill: new Fill({
+    //       color: '#000000', // Text color
+    //     }),
+    //     stroke: new Stroke({
+    //       color: '#ffffff', // Stroke color around text (for better visibility)
+    //       width: 3,
+    //     }),
+    //     textAlign: 'center',  // Optional: Align text to the center
+    //     textBaseline: 'middle', // Optional: Align text vertically to the center
+    //     offsetX: 0, // Optional: Move text horizontally if needed
+    //     offsetY: 0, // Optional: Move text vertically if needed
+    //     position: centroid, // Position the text at the centroid
+    //   }),
+    });
+  }
+
 const vectorLayerHighlight = new VectorLayer({
     source: new VectorSource(),
     map: map,
-    style: {
-        'stroke-color': ['string', ['get', 'C7'], '#ff4488'],
-        'stroke-width': 2,
-        'fill-color': ['string', ['get', 'C3'], '#ff4488'],
-    },
+    style: polygonStyleFunction,
   });
 
   let highlight;
