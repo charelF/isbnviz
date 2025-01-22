@@ -1,4 +1,4 @@
-import javax.swing.plaf.synth.Region
+import kotlin.random.Random
 import kotlin.system.measureTimeMillis
 
 
@@ -9,15 +9,25 @@ fun test() {
 
     repeat(hilbert.N.toInt()) { i ->
         val idx = hilbert.numToPos(i.toLong())
-//        println("$i -> $idx")
+        val i2 = hilbert.posToNum(idx)
+        println("$i -> $idx -> $i2")
         container[idx.first.toInt()][idx.second.toInt()] = i
     }
     container.forEach { line ->
         line.forEach { num ->
-            print(num.toString().padStart(3, ' '))
+            print(num.toString().padStart(4, ' '))
         }
         println()
     }
+
+    val h2 = Hilbert(14)
+    List(100) { Random.nextLong(0, h2.N) }
+        .map { num ->
+//            println("$num -> ${h2.numToPos(num)} -> ${h2.posToNum(h2.numToPos(num))}")
+            if (num != h2.posToNum(h2.numToPos(num))) {
+                throw Exception("problem")
+            }
+        }
 }
 
 fun benchmark() {
@@ -32,31 +42,39 @@ fun benchmark() {
 
 }
 
-fun main() {
-    val hilbert = Hilbert(3)
+fun polytest() {
+    val hilbert = Hilbert(7)
 
-    val m = 2L.pow(hilbert.dimensions).toInt()
-    val container = MutableList(m) { MutableList(m) {0} }
+//    val m = 2L.pow(hilbert.dimensions).toInt()
+//    val container = MutableList(m) { MutableList(m) {0} }
+//
+//    repeat(hilbert.N.toInt()) { i ->
+//        val idx = hilbert.numToPos(i.toLong())
+//        container[idx.first.toInt()][idx.second.toInt()] = i
+//    }
+//    container.forEach { line ->
+//        line.forEach { num ->
+//            print(num.toString().padStart(4, ' '))
+//        }
+//        println()
+//    }
 
-    repeat(hilbert.N.toInt()) { i ->
-        val idx = hilbert.numToPos(i.toLong())
-        container[idx.first.toInt()][idx.second.toInt()] = i
-    }
-    container.forEach { line ->
-        line.forEach { num ->
-            print(num.toString().padStart(3, ' '))
-        }
-        println()
-    }
+    val poly = Polygon()
 
-    val finder = RegionFinder()
-
-    val seq = (6L..13L)
-        .map(hilbert::numToPos).toSet()
-        .let(finder::findCorners)
+    val seq = (1233L..5621L)
+        .map(hilbert::numToPos).toSet().also(::println)
+        .let(poly::findCorners)
 
     println(seq)
 
+    val sorted = poly.sortCorners(seq)
+
+    println(sorted)
+
+}
 
 
+fun main() {
+    ISBNCountries().main()
+//    test()
 }
