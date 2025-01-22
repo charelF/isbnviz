@@ -58,9 +58,9 @@ class ISBNCountries {
 
 
     fun createColors(): Map<String, String> {
-        val r = Random.nextInt(100, 256) // Avoid very dark colors
-        val g = Random.nextInt(100, 256)
-        val b = Random.nextInt(100, 256)
+        val r = Random.nextInt(50, 200) // Avoid very dark colors
+        val g = Random.nextInt(50, 200)
+        val b = Random.nextInt(50, 200)
         val alpha = (0..255 step 255 / 7).toList()
         return (0 until 8).associate { i ->
             "C$i" to "#%02X%02X%02X%02X".format(r, g, b, alpha[i])
