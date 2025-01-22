@@ -10,6 +10,11 @@ enum class Dir {
 
 typealias Corner = Pair<CornerType, Pair<Int, Int>>
 
+fun Pair<Int,Int>.isWithin(bounds: Int): Boolean {
+    return this.first >= 0 && this.first < bounds &&
+            this.second >= 0 && this.second < bounds
+}
+
 
 class Polygon {
     // this is like advent of code 2024 day 12 lol
@@ -21,7 +26,6 @@ class Polygon {
         // this one is slower, but much more memory efficient
         val corners: MutableSet<Corner> = mutableSetOf()
         for (i in range) {
-            if (i % ((range.last-range.first)/100) == 0L) println(i)
 
             val point = hilbert.numToPos(i)
 
@@ -36,21 +40,28 @@ class Polygon {
             val sw = point.first + 1 to point.second - 1
 
             // transform back from pos to index to search if it is in the range
-            val nIn = hilbert.posToNum(n) in range
-            val sIn = hilbert.posToNum(s) in range
-            val eIn = hilbert.posToNum(e) in range
-            val wIn = hilbert.posToNum(w) in range
+            val nIn = n.isWithin(hilbert.m) && hilbert.posToNum(n) in range
+            val sIn = s.isWithin(hilbert.m) && hilbert.posToNum(s) in range
+            val eIn = e.isWithin(hilbert.m) && hilbert.posToNum(e) in range
+            val wIn = w.isWithin(hilbert.m) && hilbert.posToNum(w) in range
 
-            val neIn = hilbert.posToNum(ne) in range
-            val seIn = hilbert.posToNum(se) in range
-            val nwIn = hilbert.posToNum(nw) in range
-            val swIn = hilbert.posToNum(sw) in range
+            val neIn = ne.isWithin(hilbert.m) && hilbert.posToNum(ne) in range
+            val seIn = se.isWithin(hilbert.m) && hilbert.posToNum(se) in range
+            val nwIn = nw.isWithin(hilbert.m) && hilbert.posToNum(nw) in range
+            val swIn = sw.isWithin(hilbert.m) && hilbert.posToNum(sw) in range
 
-            if (!neIn && nIn == eIn) corners.add((if (nIn) CornerType.nei else CornerType.neo) to e)
-            if (!nwIn && nIn == wIn) corners.add((if (nIn) CornerType.nwi else CornerType.nwo) to point)
-            if (!swIn && sIn == wIn) corners.add((if (sIn) CornerType.swi else CornerType.swo) to s)
-            if (!seIn && sIn == eIn) corners.add((if (sIn) CornerType.sei else CornerType.seo) to se)
-
+            if (!neIn && nIn == eIn) {
+                corners.add((if (nIn) CornerType.nei else CornerType.neo) to e)
+            }
+            if (!nwIn && nIn == wIn) {
+                corners.add((if (nIn) CornerType.nwi else CornerType.nwo) to point)
+            }
+            if (!swIn && sIn == wIn) {
+                corners.add((if (sIn) CornerType.swi else CornerType.swo) to s)
+            }
+            if (!seIn && sIn == eIn) {
+                corners.add((if (sIn) CornerType.sei else CornerType.seo) to se)
+            }
         }
         return corners
     }
@@ -59,7 +70,8 @@ class Polygon {
         val corners: MutableSet<Corner> = mutableSetOf()
         var i = 0L
         for (point in points) {
-            i ++ ; if (i % (points.size/100) == 0L) println(i)
+            i ++ ; if (i % (points.size/10) == 0L) print("$i ")
+
             val n = point.first - 1 to point.second
             val s = point.first + 1 to point.second
             val e = point.first to point.second + 1
@@ -101,6 +113,11 @@ class Polygon {
         // i think given the domain, I have a simpler idea
 
         fun Corner.findClosestInDirection(direction: Dir): Corner {
+//            println()
+//            println(this)
+//            println(direction)
+//            println(corners)
+//            println(corners.filter { it.second.first == this.second.first && it.second.second < this.second.second })
             return when (direction) {
                 Dir.n -> corners
                     .filter { it.second.second == this.second.second && it.second.first < this.second.first }
@@ -167,6 +184,7 @@ class Polygon {
                 throw Exception("An error happened in sortCorners")
             }
         }
+        sorted.add(sorted.first()) // need to close the polygon by adding the first one anew
         return sorted
     }
 

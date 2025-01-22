@@ -75,6 +75,8 @@ fun polytest() {
 
 
 fun main() {
-    ISBNCountries().main()
+//    ISBNCountries().main()
 //    test()
+//    println(Hilbert(3).numToPos(-1))
+    ISBNCountries().createGeoJSON()
 }

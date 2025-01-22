@@ -22,17 +22,20 @@ const projection = new Projection({
   extent: extent,
 });
 
-const vectorSource2 = new VectorSource({
-  url: 'geo.json',
-  format: new GeoJSON({
-    dataProjection: projection,
-    featureProjection: projection
-  })
-});
-
-const vectorLayer2 = new VectorLayer({
-  source: vectorSource2
-});
+const vectorLayerAll = new VectorLayer({
+    source: new VectorSource({
+      url: 'countries.json',
+      format: new GeoJSON({
+        dataProjection: projection,    
+        featureProjection: projection
+      }),
+      }),
+    style: {
+    'stroke-color': ['string', ['get', 'C4'], '#ff4488'],
+    'stroke-width': 1,
+      'fill-color': ['string', ['get', 'C1'], '#ff4488'],
+    },
+  });
 
 // Setup Zoomify source with adjusted positioning
 const isMobile = true///Mobi|Android/i.test(navigator.userAgent);
@@ -60,7 +63,7 @@ const zoomifyLayer = new TileLayer({
 });
 
 const map = new Map({
-  layers: [zoomifyLayer, vectorLayer2],
+  layers: [zoomifyLayer, vectorLayerAll],
   controls: defaultControls().extend([new FullScreen()]),
   target: 'map',
   view: new View({
@@ -73,4 +76,95 @@ const map = new Map({
   }),
 });
 
-zoomifyLayer.setOpacity(1);
+
+const vectorLayerHighlight = new VectorLayer({
+    source: new VectorSource(),
+    map: map,
+    style: {
+        'stroke-color': ['string', ['get', 'C7'], '#ff4488'],
+        'stroke-width': 2,
+        'fill-color': ['string', ['get', 'C3'], '#ff4488'],
+    },
+  });
+
+  let highlight;
+  const displayFeatureInfo = function (event) {
+      const pixel = event.pixel
+      const coordinates = event.coordinate;
+      const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
+          return feature;
+      });
+    // Set the tooltip position and content
+    const offset0 = 0; // Distance between the mouse and the tooltip
+    const offset1 = 0; // Distance between the mouse and the tooltip
+    info.style.left = pixel[0] - info.offsetWidth - offset0 + 'px'; // Offset to the left of the pointer
+    info.style.top = pixel[1] - offset1 + 'px'; // Vertically aligned with the pointer
+    info.style.visibility = 'visible';
+    var x = Math.round(coordinates[0])
+    // var y = 4096 - Math.round(coordinates[1])
+    var y = Math.round(coordinates[1])
+    var i = getHilbertCurveIndex(x,y, 12)
+    var isbn = getISBN(i)
+    info.innerText = `${x}, ${y} ${i} ${isbn} ${feature?.get('NAME') ?? ''}`;
+  
+    if (feature !== highlight) {
+      if (highlight) {
+          vectorLayerHighlight.getSource().removeFeature(highlight);
+      }
+      if (feature) {
+          vectorLayerHighlight.getSource().addFeature(feature);
+      }
+      highlight = feature;
+    }
+  };
+  
+  map.on('pointermove', function (event) {
+    if (event.dragging) {
+      info.style.visibility = 'hidden';  // for mobile
+      return;
+    }
+    displayFeatureInfo(event);
+  });
+  
+  map.on('click', function (event) {
+    displayFeatureInfo(event);
+  });
+  
+  
+  // Add a tooltip element to the DOM
+  const info = document.createElement('div');
+  info.id = 'info';
+  document.body.appendChild(info);
+  
+  
+  function getHilbertCurveIndex(x, y, order) {
+      let index = 0;
+      let n = 1 << order;  // 2^order
+      while (n > 1) {
+          const quadrantSize = n / 2;
+          let quadrant = 0;
+  
+          // Determine the quadrant in which (x, y) lies
+          if (x >= quadrantSize) {
+              x -= quadrantSize;
+              quadrant |= 1; // 1 means right half
+          }
+          if (y >= quadrantSize) {
+              y -= quadrantSize;
+              quadrant |= 2; // 2 means bottom half
+          }
+  
+          // Update the index by shifting and adding the quadrant
+          index = (index << 2) | quadrant;
+  
+          // Reduce the problem to the next smaller grid
+          n = quadrantSize;
+      }
+  
+      return index;
+  }
+  
+  function getISBN(index) {
+      const newIndex = index + 978000000000;
+      return newIndex.toString();  // Convert the result to a string
+  }

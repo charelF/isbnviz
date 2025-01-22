@@ -9,6 +9,7 @@ class Hilbert(
     val dimensions: Int
 ) {
     val N = 2L.pow(2*dimensions)
+    val m = 2L.pow(dimensions).toInt() // the hilbert space is of size m by m and contains N values
 
     fun numToPos(num: Long): Pair<Int, Int> {
         if (num >= N) throw Exception("num $num too big for hilbert space of dimension $dimensions (max = $N)")

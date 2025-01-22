@@ -17,6 +17,7 @@ import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 
 
+
 // Define the extent of the image
 const extent = [0, 0, 4096, 4096];
 const projection = new Projection({
@@ -27,14 +28,14 @@ const projection = new Projection({
 
 const vectorLayerAll = new VectorLayer({
   source: new VectorSource({
-    url: 'geo.json',
+    url: 'countries.json',
     format: new GeoJSON({
       dataProjection: projection,    
       featureProjection: projection
     }),
     }),
   style: {
-    'fill-color': ['string', ['get', 'COLOR'], '#ff4488'],
+    'fill-color': ['string', ['get', 'C7'], '#ff4488'],
   },
 });
 
@@ -72,7 +73,6 @@ const vectorLayerHighlight = new VectorLayer({
   });
 
 vectorLayerAll.setOpacity(0.2)
-// vectorLayerHighlight.setOpacity(0.2)
 imagelayer.setOpacity(0.4)
 
 let highlight;
@@ -82,10 +82,6 @@ const displayFeatureInfo = function (event) {
     const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
         return feature;
     });
-
-  // Get the coordinates from the event
-  
-
   // Set the tooltip position and content
   const offset0 = 0; // Distance between the mouse and the tooltip
   const offset1 = 0; // Distance between the mouse and the tooltip
@@ -122,11 +118,7 @@ map.on('click', function (event) {
   displayFeatureInfo(event);
 });
 
-
-
-
-
-
+=
 
 // Add a tooltip element to the DOM
 const info = document.createElement('div');

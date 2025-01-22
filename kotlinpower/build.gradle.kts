@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0-RC"
+    kotlin("plugin.serialization") version "2.1.0-RC"
+
 //    application
 //    id("org.graalvm.buildtools.native") version "0.10.3"
 }
@@ -14,6 +16,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
     // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
     implementation("org.apache.commons:commons-math3:3.6.1")
 }

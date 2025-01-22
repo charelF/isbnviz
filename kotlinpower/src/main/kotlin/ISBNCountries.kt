@@ -1,3 +1,34 @@
+import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.*
+import kotlinx.serialization.json.Json
+import java.io.File
+import kotlin.random.Random
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
+import kotlin.time.measureTime
+
+
+@Serializable
+data class GeoJSON(
+    val type: String,
+    val features: List<Feature>
+)
+
+@Serializable
+data class Feature(
+    val type: String,
+    val geometry: Geometry,
+    val properties: Map<String, String>,
+)
+
+@Serializable
+data class Geometry(
+    val type: String,
+    val coordinates: List<List<List<List<Int>>>>  // bro why so many layers
+)
+
 class ISBNCountries {
     val hilbert = Hilbert(16)
     val polygon = Polygon()
@@ -12,30 +43,74 @@ class ISBNCountries {
         return start .. end
     }
 
-    fun rangeToVector(range: LongRange): List<Corner> {
-        return range
-            .map(hilbert::numToPos).toSet()
-            .let(polygon::findCorners)
-            .let(polygon::sortCorners)
+    fun createFeature(coordinates: List<List<Pair<Int, Int>>>, properties: Map<String, String>): Feature {
+        val formattedCoordinates = coordinates.map { lst -> lst.map { listOf(it.second, -it.first + hilbert.m/2) } }  // some ugly transform happening
+//        val formattedCoordinates = coordinates.map { listOf(it.second, -it.first) }
+        return Feature(
+            type = "Feature",
+            geometry = Geometry(
+                type = "MultiPolygon",
+                coordinates = listOf(formattedCoordinates)
+            ),
+            properties = properties
+        )
     }
+
+
+    fun createColors(): Map<String, String> {
+        val r = Random.nextInt(100, 256) // Avoid very dark colors
+        val g = Random.nextInt(100, 256)
+        val b = Random.nextInt(100, 256)
+        val alpha = (0..255 step 255 / 7).toList()
+        return (0 until 8).associate { i ->
+            "C$i" to "#%02X%02X%02X%02X".format(r, g, b, alpha[i])
+        }
+    }
+
+    fun createGeoJSON() = runBlocking {
+        measureTime {
+            val countryRanges = countries.groupBy { it.second }  // Group by the name
+                .mapValues { entry ->
+                    entry.value.map { ISBNGroupToRange(it.first) }
+                }
+            val features = countryRanges.map { (name, ranges) ->
+                async(Dispatchers.Default) {
+                    println("$name ")
+                    val colors = createColors()
+                    val coords = ranges.map { range ->
+                        rangeToVectorLive(range).map { it.second }
+                    }
+                    createFeature(coords, mapOf("NAME" to name) + colors)
+                }
+            }.awaitAll()
+            val geo = GeoJSON(type = "FeatureCollection", features = features)
+            val json = Json.encodeToString(geo)
+            File("../visualization/public/countries.json").writeText(json)
+        }.also { println("finished in $it") }
+    }
+
+
+
+//    fun rangeToVector(range: LongRange): List<Corner> {
+//        return range
+//            .map(hilbert::numToPos).toSet()
+//            .let(polygon::findCorners)
+//            .let(polygon::sortCorners)
+//    }
 
     fun rangeToVectorLive(range: LongRange): List<Corner> {
         val corners = polygon.findCornersLive(hilbert, range)
         return polygon.sortCorners(corners)
     }
 
-    fun main() {
-        val ranges = countries.associate { (group, name) -> name to ISBNGroupToRange(group) }
-//        val range = ranges["Tanzania"]!!  // 4
-//        val range = ranges["Turkey"]!!  // 3
-//        val range = ranges["India"]!!  // 2
-        val range = ranges["China, People's Republic"]!! // 1
-
-//        println((range.second - range.first) * 2 * )
-        val vector = rangeToVectorLive(range)
-        println(vector)
-
-    }
+    val countriesDebug = setOf(
+        "978-000" to "first",
+        "978-001" to "first",
+        "978-003" to "first",
+        "978-999" to "last",
+        "979-000" to "first979",
+        "979-999" to "last979"
+    )
 
     val countries = setOf(
         "978-0" to "English language",
@@ -171,7 +246,7 @@ class ISBNCountries {
         "978-9946" to "Korea, P.D.R.",
         "978-9947" to "Algeria",
         "978-9948" to "United Arab Emirates",
-        "978-9949" to "Es tonia",
+        "978-9949" to "Estonia",
         "978-9950" to "Palestine",
         "978-9951" to "Kosova",
         "978-9952" to "Azerbaijan",
