@@ -43,8 +43,9 @@ possible improvements:
 
 # exporting the data
 
-1. in generation, run `uv run data_exporter.py`
-2. open in kotlin via Imagen
+1. in generation, run `uv run data_exporter.py` to put the binary .bin s into the data/isbns_codes_binary folder
+2. open in kotlin via Imagen, generate the pngs with Imagen main(), it will put them in data/isbn_pngs
+3. now go back to python to generate the tiles
 
 
 
