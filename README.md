@@ -45,3 +45,9 @@ possible improvements:
 
 1. in generation, run `uv run data_exporter.py`
 2. open in kotlin via Imagen
+
+
+
+## if i win, want to donate to:
+- https://github.com/leonbloy/pngj
+- openlayers

@@ -6,7 +6,6 @@ import java.awt.Color
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
-import javax.imageio.IIOImage
 
 // had to use an external library because my image is too big lol. but it works very well
 import java.nio.file.*;
@@ -46,7 +45,6 @@ class Imagen {
     fun processList(list: List<Int>, image: Array<BooleanArray>) {
         var streak = true
         var position = 0
-        println("processlist start")
         for (value in list) {
             if (streak) {
                 for (i in position until position + value) {
@@ -60,7 +58,6 @@ class Imagen {
             }
             streak = !streak
         }
-        println("processlist end")
     }
 
     fun run(filepath: String) {
@@ -86,24 +83,73 @@ class Imagen {
         pngWriter.end()
     }
 
-    fun main() {
+    fun processAll() {
         val dir = Paths.get("../data/isbns_codes_binary")
         val globPattern = "*.bin"
-        try {
-            Files.newDirectoryStream(dir, globPattern).use { stream ->
-                measureTime {
-                    for (entry in stream) {
-                        val path = "../data/isbns_codes_binary/${entry.fileName}"
-                        println(path)
-                        run(path)
-                    }
-                }.also { println("finished in $it") }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        Files.newDirectoryStream(dir, globPattern).use { stream ->
+            measureTime {
+                for (entry in stream) {
+                    val path = "../data/isbns_codes_binary/${entry.fileName}"
+                    println(path)
+                    run(path)
+                    break
+                }
+            }.also { println("finished in $it") }
         }
     }
 
+    fun processCombinedImage() {
+        // code duplication but too lazy to fix rn
+        val dir = Paths.get("../data/isbns_codes_binary")
+        val outputFile = File("../data/isbn_pngs/combined")
+        val globPattern = "*.bin"
+        val paths = Files.newDirectoryStream(dir, globPattern).use { stream ->
+            stream.map { "../data/isbns_codes_binary/${it.fileName}" }
+        }
+        val lists = paths.associate { it to loadList(it) }
+        var image: Array<ByteArray> = Array(height) { ByteArray(width) { 0 } }
+
+        lists.forEach { (path, list) ->
+            val ownedByAA: Boolean = path.contains("md5")
+            var streak = true
+            var position = 0
+            for (value in list) {
+                if (streak) {
+                    for (i in position until position + value) {
+                        val (y, x) = hilbert.numToPos(i.toLong())
+                        if (y >= height || x >= width) break
+//                        image[y][x] += if (ownedByAA) 1 else 2
+                    }
+                    position += value
+                } else {
+                    position += value
+                }
+                streak = !streak
+            }
+        }
+
+        val imgInfo = ImageInfo(width, height, 1, false, false, false)
+        val pngWriter = PngWriter(outputFile, imgInfo)
+        // Write each row of the Boolean array to the PNG
+        for (row in image) {
+            val imageLine = ImageLineInt(imgInfo)
+            for (i in row.indices) {
+//                imageLine.scanline[i] = row[i]
+            }
+            pngWriter.writeRow(imageLine)
+        }
+        pngWriter.end()
+
+
+
+
+    }
+
+    fun main() {
+        processAll()
+    }
+
+    // basic java version -- much slower and doesnt work since my file is too big
     fun booleanArrayToPng(bitArray: Array<BooleanArray>, outputFile: File, trueColor: Color = Color.BLACK, falseColor: Color = Color.WHITE) {
         val width = bitArray[0].size
         val height = bitArray.size
