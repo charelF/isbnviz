@@ -38,3 +38,10 @@ for some reason, openlayers zoomify has unsharp tiles for size 1024 and 2048, bu
 
 possible improvements:
 - fake the lower half / or remove it.
+
+
+
+# exporting the data
+
+1. in generation, run `uv run data_exporter.py`
+2. open in kotlin via Imagen
