@@ -46,6 +46,8 @@ const vectorLayerAll = new VectorLayer({
 
 vectorLayerAll.setOpacity(0.5)
 
+
+
 // Setup Zoomify source with adjusted positioning
 const isMobile = true///Mobi|Android/i.test(navigator.userAgent);
 const ratio = isMobile ? 1 : 2;
@@ -55,7 +57,7 @@ const zdir = isMobile ? -1 : 1;
 console.log(isMobile, ratio, zdir)
 
 const source = new Zoomify({
-  url: 'zoomify/gbooks_top_q100_N4294967296_t4096_png_i/{TileGroup}/{z}-{x}-{y}.png',
+  url: 'zoomify/combined.png/{TileGroup}/{z}-{x}-{y}.png',
   size: [N, N/2],
   crossOrigin: 'anonymous',
   projection: projection,
@@ -204,3 +206,6 @@ const vectorLayerHighlight = new VectorLayer({
       const newIndex = index + 978000000000;
       return newIndex.toString();  // Convert the result to a string
   }
+
+  vectorLayerHighlight.setOpacity(0)
+  vectorLayerAll.setOpacity(0)
