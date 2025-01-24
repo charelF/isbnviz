@@ -52,3 +52,18 @@ possible improvements:
 ## if i win, want to donate to:
 - https://github.com/leonbloy/pngj
 - openlayers
+
+
+
+# improvements:
+- use a palette to save on bits for the colorful combined.png http://www.libpng.org/pub/png/book/chapter08.html
+- have lower res / lower dimension images for mobile users
+
+
+generating the vector tiles:
+- tippecanoe
+- npm install ol-mbtiles
+
+
+diving deeper:
+- https://sean-rennie.medium.com/cogs-in-production-e9a42c7f54e4

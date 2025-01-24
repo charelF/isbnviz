@@ -207,5 +207,5 @@ const vectorLayerHighlight = new VectorLayer({
       return newIndex.toString();  // Convert the result to a string
   }
 
-  vectorLayerHighlight.setOpacity(0)
-  vectorLayerAll.setOpacity(0)
+//   vectorLayerHighlight.setOpacity(0)
+//   vectorLayerAll.setOpacity(0)

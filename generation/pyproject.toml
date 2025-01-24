@@ -12,6 +12,7 @@ dependencies = [
     "numpy>=2.2.2",
     "numpy-hilbert-curve>=1.0.1",
     "opencv-python>=4.11.0.86",
+    "orjson>=3.10.15",
     "pillow>=11.1.0",
     "pyvips[binary]>=2.2.3",
     "scipy>=1.15.1",
