@@ -60,6 +60,8 @@ class Hilbert(
     fun posToNum(pos: Pair<Int, Int>): Long {
         // insane ... Claude 3.5 Sonnet wrote this on the second try (first had a mistake)
         // I just gave it numToPos as input and asked it to inverse it
+        // NOTE: the input is (x to y), but this is counterintuitive because if we would index
+        // a 2d array we would index (y to x)
         var x = pos.first.toLong()
         var y = pos.second.toLong()
         var h = 0L
@@ -70,30 +72,25 @@ class Hilbert(
         var t: Long
 
         for (i in (dimensions-1) downTo 0) {
-            n2 = n shr 1
+            n2 = n shr 1  // division by 2
 
-            // Add appropriate bits based on quadrant
             val bits = when {
                 x < n2 && y < n2 -> {
-                    // Bottom left quadrant
                     t = x
                     x = y
                     y = t
                     0L
                 }
                 x < n2 && y >= n2 -> {
-                    // Top left quadrant
                     y -= n2
                     1L
                 }
                 x >= n2 && y >= n2 -> {
-                    // Top right quadrant
                     x -= n2
                     y -= n2
                     2L
                 }
-                else -> {  // x >= n2 && y < n2
-                    // Bottom right quadrant
+                else -> {
                     t = y
                     y = (n2 - 1) - x + n2
                     x = (n2 - 1) - t
