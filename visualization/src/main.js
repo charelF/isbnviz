@@ -193,3 +193,14 @@ function getISBN(index) {
     const newIndex = index + 978_000_000_000;
     return newIndex.toString();  // Convert the result to a string
 }
+
+// Get the checkbox element
+const toggleVectorLayersCheckbox = document.getElementById('toggle-vector-layers');
+
+// Add event listener to the checkbox
+toggleVectorLayersCheckbox.addEventListener('change', (event) => {
+    const isChecked = event.target.checked;
+    // set opactiy so we still see the text.    
+    vectorLayerAll.setOpacity(0);
+    vectorLayerHighlight.setOpacity(0);
+});
