@@ -41,27 +41,8 @@ const vectorLayerAll = new VectorLayer({
 });
 vectorLayerAll.setOpacity(0.5)
 
-const ratio = 1
-const zdir = -1
-const source = new Zoomify({
-    url: 'zoomify/combined.png/{TileGroup}/{z}-{x}-{y}.png',
-    size: [N, N / 2],
-    crossOrigin: 'anonymous',
-    projection: projection,
-    interpolate: false,
-    zDirection: zdir,
-    tilePixelRatio: ratio,
-    tileSize: tilesize / ratio,
-    extent: extent  // Set the same extent as the projection
-});
-
-const zoomifyLayer = new TileLayer({
-    source: source,
-    extent: extent  // Also set extent on the layer itself
-});
-
 const map = new Map({
-    layers: [zoomifyLayer, vectorLayerAll],
+    layers: [vectorLayerAll],
     controls: defaultControls().extend([new FullScreen()]),
     target: 'map',
     view: new View({
@@ -73,6 +54,82 @@ const map = new Map({
         enableRotation: false,
     }),
 });
+
+const zoomifyFolders = [
+    'combined.png',
+    'cadal_ssno.bin.png',
+    'cerlalc.bin.png',
+    'duxiu_ssid.bin.png',
+    'edsebk.bin.png',
+    'gbooks.bin.png',
+    'goodreads.bin.png',
+    'ia.bin.png',
+    'isbndb.bin.png',
+    'isbngrp.bin.png',
+    'libby.bin.png',
+    'md5.bin.png',
+    'nexusstc.bin.png',
+    'nexusstc_download.bin.png',
+    'oclc.bin.png',
+    'ol.bin.png',
+    'rgb.bin.png',
+    'trantor.bin.png',
+];
+
+// Initialize the dropdown
+const zoomifySelect = document.getElementById('zoomify-select');
+zoomifyFolders.forEach(folder => {
+    const option = document.createElement('option');
+    option.value = folder;
+    option.textContent = folder;
+    zoomifySelect.appendChild(option);
+});
+
+zoomifySelect.value = zoomifyFolders[0];
+
+
+const ratio = 1
+const zdir = -1
+
+// Keep track of current zoomify layer
+let currentZoomifyLayer = null;
+
+// Event listener for dropdown change
+zoomifySelect.addEventListener('change', (event) => {
+    updateZoomify(event.target.value)
+});
+
+function updateZoomify(folder) {
+    if (folder) {
+        // Remove current zoomify layer if it exists
+        if (currentZoomifyLayer) {
+            map.removeLayer(currentZoomifyLayer);
+        }
+        // Create and add new zoomify layer
+        currentZoomifyLayer = new TileLayer({
+            source: new Zoomify({
+                url: `zoomify/${folder}/{TileGroup}/{z}-{x}-{y}.png`,
+                size: [N, N / 2],
+                crossOrigin: 'anonymous',
+                projection: projection,
+                interpolate: false,
+                zDirection: zdir,
+                tilePixelRatio: ratio,
+                tileSize: tilesize / ratio,
+                extent: extent
+            }),
+            extent: extent,
+            zIndex: 0
+        });
+        currentZoomifyLayer.setZIndex(0)
+        vectorLayerAll.setZIndex(1)
+        
+        map.addLayer(currentZoomifyLayer);
+    }
+}
+
+updateZoomify(zoomifyFolders[0])
+
 
 const vectorLayerHighlight = new VectorLayer({
     source: new VectorSource(),
