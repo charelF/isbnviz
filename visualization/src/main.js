@@ -39,7 +39,6 @@ const vectorLayerAll = new VectorLayer({
         'fill-color': ['string', ['get', 'C-1'], '#00000000'],
     },
 });
-vectorLayerAll.setOpacity(0.5)
 
 const map = new Map({
     layers: [vectorLayerAll],
@@ -145,20 +144,36 @@ const vectorLayerHighlight = new VectorLayer({
     }),
 });
 
-let highlight;
-const displayFeatureInfo = function (event) {
-    const pixel = event.pixel
+let isLocked = false;
+let lockedFeature = null;
+let lockedCoordinates = null;
+let highlight
+
+// Function to display feature information
+const displayFeatureInfo = function (event, isClick = false) {
+    if (isLocked && !isClick) return; // Ignore mouse movements if locked
+
+    const pixel = event.pixel;
     const coordinates = event.coordinate;
     const feature = map.forEachFeatureAtPixel(pixel, function (feature) {
         return feature;
     });
-    var x = Math.round(coordinates[0])
-    var y = - Math.round(coordinates[1]) + 32768
-    var i = posToNum(y, x)
-    var isbn = getISBN(i)
-    const infoDisplay = document.getElementById('info-display');
-    infoDisplay.innerText = `x=${x.toString().padStart(5, '0')} y=${y.toString().padStart(5, '0')} i=${i} isbn=${isbn} \n ${feature?.get('NAME') ?? '-'}`;
 
+    var x = Math.round(coordinates[0]);
+    var y = -Math.round(coordinates[1]) + 32768;
+    var i = posToNum(y, x);
+    var isbn = getISBN(i);
+    const infoDisplay = document.getElementById('info-display');
+
+    if (isClick) {
+        // Lock the info and feature
+        isLocked = true;
+        lockedFeature = feature;
+        lockedCoordinates = coordinates;
+        infoDisplay.innerHTML = `x=${x.toString().padStart(5, '0')} y=${y.toString().padStart(5, '0')} i=${i} isbn=${isbn} \n ${feature?.get('NAME') ?? '-'}<br><a href="https://annas-archive.org/search?q=${isbn}" target="_blank">Open in Anna's Archive</a>`;
+    } else {
+        infoDisplay.innerText = `x=${x.toString().padStart(5, '0')} y=${y.toString().padStart(5, '0')} i=${i} isbn=${isbn} \n ${feature?.get('NAME') ?? '-'}`;
+    }
 
     if (feature !== highlight) {
         if (highlight) {
@@ -171,23 +186,33 @@ const displayFeatureInfo = function (event) {
     }
 };
 
+// Event listener for mouse movement
 map.on('pointermove', function (event) {
-    if (event.dragging) {
+    if (event.dragging || isLocked) {
         return;
     }
     displayFeatureInfo(event);
 });
 
+// Event listener for click
 map.on('click', function (event) {
-    displayFeatureInfo(event);
-    var x = Math.round(event.coordinate[0])
-    var y = - Math.round(event.coordinate[1]) + 32768
-    var i = posToNum(y, x)
-    var isbn = getISBN(i)
-    if (isbn) {
-        window.open(`https://annas-archive.org/search?q=${isbn}`, '_blank');
-    }
+    displayFeatureInfo(event, true);
 });
+
+// Function to clear the locked state
+function clearLockedState() {
+    isLocked = false;
+    lockedFeature = null;
+    lockedCoordinates = null;
+    document.getElementById('info-display').innerText = '';
+    if (highlight) {
+        vectorLayerHighlight.getSource().removeFeature(highlight);
+        highlight = null;
+    }
+}
+
+document.getElementById('clear-button').addEventListener('click', clearLockedState);
+
 
 function getISBN(index) {
     const newIndex = index + 978_000_000_000;
@@ -201,6 +226,8 @@ const toggleVectorLayersCheckbox = document.getElementById('toggle-vector-layers
 toggleVectorLayersCheckbox.addEventListener('change', (event) => {
     const isChecked = event.target.checked;
     // set opactiy so we still see the text.    
-    vectorLayerAll.setOpacity(0);
-    vectorLayerHighlight.setOpacity(0);
+    vectorLayerAll.setOpacity(isChecked ? 0.5 : 0);
+    vectorLayerHighlight.setOpacity(isChecked ? 1 : 0);
 });
+
+vectorLayerAll.setOpacity(0.5)
