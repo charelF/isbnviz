@@ -37,7 +37,10 @@ for some reason, openlayers zoomify has unsharp tiles for size 1024 and 2048, bu
 
 
 possible improvements:
-- fake the lower half / or remove it.
+- [x] fake the lower half / or remove it.
+- [ ] use lower quality pictures on mobile (lots of work, since we need to use jpeg (then get pixel issues) or use more tiles (then reaching CF static file limit) ... idk
+- [ ] use a palette to save on bits for the colorful combined.png http://www.libpng.org/pub/png/book/chapter08.html -> could save storage and make it faster on slow network
+- [ ] 
 
 
 
@@ -49,15 +52,12 @@ possible improvements:
 
 
 
-## if i win, want to donate to:
+
+Useful opensource projects
 - https://github.com/leonbloy/pngj
 - openlayers
 
 
-
-# improvements:
-- use a palette to save on bits for the colorful combined.png http://www.libpng.org/pub/png/book/chapter08.html
-- have lower res / lower dimension images for mobile users
 
 
 generating the vector tiles:
