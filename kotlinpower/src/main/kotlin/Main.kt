@@ -82,5 +82,6 @@ fun main() {
 //    Imagen().main()
 //    val h = Hilbert(16)
 //    println(h.posToNum(39000 to 400))
+    Publishers().main()
 }
 
