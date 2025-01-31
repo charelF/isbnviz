@@ -86,16 +86,36 @@ zoomifyFolders.forEach(folder => {
 
 zoomifySelect.value = zoomifyFolders[0];
 
+// Initialize the optional Zoomify dropdown
+const optionalZoomifySelect = document.getElementById('optional-zoomify-select');
+zoomifyFolders.forEach(folder => {
+    const option = document.createElement('option');
+    option.value = folder;
+    option.textContent = folder;
+    optionalZoomifySelect.appendChild(option);
+});
 
 const ratio = 1
 const zdir = -1
 
 // Keep track of current zoomify layer
 let currentZoomifyLayer = null;
+let optionalZoomifyLayer = null;
 
 // Event listener for dropdown change
 zoomifySelect.addEventListener('change', (event) => {
     updateZoomify(event.target.value)
+});
+
+optionalZoomifySelect.addEventListener('change', (event) => {
+    updateOptionalZoomify(event.target.value)
+});
+
+// Event listener for opacity slider change
+document.getElementById('optional-zoomify-opacity').addEventListener('input', (event) => {
+    if (optionalZoomifyLayer) {
+        optionalZoomifyLayer.setOpacity(parseFloat(event.target.value));
+    }
 });
 
 function updateZoomify(folder) {
@@ -127,8 +147,33 @@ function updateZoomify(folder) {
     }
 }
 
-updateZoomify(zoomifyFolders[0])
+function updateOptionalZoomify(folder) {
+    if (optionalZoomifyLayer) {
+        map.removeLayer(optionalZoomifyLayer);
+        optionalZoomifyLayer = null;
+    }
+    if (folder) {
+        optionalZoomifyLayer = new TileLayer({
+            source: new Zoomify({
+                url: `zoomify/${folder}/{TileGroup}/{z}-{x}-{y}.png`,
+                size: [N, N / 2],
+                crossOrigin: 'anonymous',
+                projection: projection,
+                interpolate: false,
+                zDirection: zdir,
+                tilePixelRatio: ratio,
+                tileSize: tilesize / ratio,
+                extent: extent
+            }),
+            extent: extent,
+            zIndex: 2,
+            opacity: parseFloat(document.getElementById('optional-zoomify-opacity').value)
+        });
+        map.addLayer(optionalZoomifyLayer);
+    }
+}
 
+updateZoomify(zoomifyFolders[0])
 
 const vectorLayerHighlight = new VectorLayer({
     source: new VectorSource(),
