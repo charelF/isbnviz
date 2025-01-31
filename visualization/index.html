@@ -136,9 +136,8 @@
                 Anna's Archive (AA), the pixel is <span
                     style="color: rgb(100, 100, 255); font-weight: bold;">blue</span>. If we know that an ISBN has been
                 issued, but we don’t have a matching file, we make it <span
-                    style="color: rgb(255, 0, 0); font-weight: bold;">red</span>. The <span
-                    style="color: rgb(100, 0, 0); font-weight: bold;">The darker the red</span>, the more datasets
-                contain that ISBN. A white pixel means we have no information about that ISBN.</p>
+                    style="color: rgb(255, 100, 100); font-weight: bold;">red</span>. A white pixel means we have no
+                information about that ISBN.</p>
         </section>
     </div>
 
@@ -184,42 +183,44 @@
 
     <div class="container">
         <section>
-            <p>
-                The map visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and 979
-                prefixes) using a Hilbert curves, which is a space-filling fractal that maps a 1D sequence (in this
-                case, all ISBNs in increasing order) onto a 2D space while preserving locality. This means that ISBNs
-                which are numerically close together will also be clustered together in this map. As ISBNs are assigned
-                as continuous ranges to countries and publishers, interesting patterns and structures emerge.
-            </p>
-            <p>
-                In addition, the map allows to overlay another map to compare datasets and also to overlay
-                country/language groups on top.
-            </p>
-            <p>
-                When clicking on a pixel, the ISBN, country/lanuage, and a link to Anna's Archive are presented.
-            </p>
+            <h2 style="margin-bottom: 1rem;">Features</h2>
+            <ul>
+                <li>The map visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and
+                    979
+                    prefixes) using a Hilbert curves, which is a space-filling fractal that maps a 1D sequence (in this
+                    case, all ISBNs in increasing order) onto a 2D space while preserving locality. This means that
+                    ISBNs
+                    which are numerically close together will also be clustered together in this map. As ISBNs are
+                    assigned
+                    as continuous ranges to countries and publishers, interesting patterns and structures emerge.</li>
+                <li>For the combined dataset, the darker the red, the more datasets contain the ISBN (but AA doesn't).
+                    For the combined_inv dataset, the opposite is true, the darker the red, the less datasets contain
+                    the ISBN (again AA doesn't). In both cases, blue means that AA has the book archived.</li>
+                <li>In addition to the base dataset, an overlay dataset can be toggled which allows to compare datasets
+                    by changing the opacity of the overlay</li>
+                <li>The country/language group to which a given ISBN belongs can be shown as a polygon vector overlay.
+                </li>
+                <li>When clicking on a pixel, the ISBN, country/lanuage, and a link to Anna's Archive are presented.
+                </li>
+            </ul>
         </section>
-        <div></div>
         <section>
-            <h2>Credits</h2>
+            <h2 style="margin: 1rem 0;">Credits</h2>
             <ul>
                 <li><a href="https://annas-archive.org/" target="_blank">Anna's Archive</a> for the datasets, hosting
                     the contest and overall support.</li>
                 <li><a href="https://openlayers.org/" target="_blank">OpenLayers</a> for a really nice mapping library
                     with lots of great examples.</li>
-                <li><a href="https://hjg.com.ar/pngj/" target="_blank">PNGJ</a> for allowing me to save very large PNGs
+                <li><a href="https://hjg.com.ar/pngj/" target="_blank">PNGJ</a> for allowing me to save very large PNGs.
                 </li>
                 <li>Lots of other awesome open source software that I will continue to link here once I parse through
                     the code I wrote.</li>
                 <li style="color: lightgrey;">ChatGPT, Claude.ai, Deepseek and Cursor</li>
             </ul>
         </section>
-        <div></div>
         <section>
-            <p>
-                Source code: <a href="https://github.com/charelf/isbnviz"
-                    target="_blank">https://github.com/charelf/isbnviz</a>
-            </p>
+            <h2 style="margin: 1rem 0;">Source</h2>
+            <a href="https://github.com/charelf/isbnviz" target="_blank">https://github.com/charelf/isbnviz</a>
 
         </section>
     </div>

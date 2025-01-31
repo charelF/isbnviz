@@ -54,7 +54,7 @@ const map = new Map({
     view: new View({
         projection: projection,
         center: getCenter(extent),
-        zoom: 1,
+        zoom: 1.7,
         maxZoom: 12,
         pinchRotate: false,
         enableRotation: false,
