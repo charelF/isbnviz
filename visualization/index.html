@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Static Image</title>
     <link rel="stylesheet" href="node_modules/ol/ol.css">
@@ -54,6 +56,7 @@
             float: left;
             padding: 1rem;
             color: black;
+            font-size: 0.9rem;
         }
 
         /* Form controls in sidepanel */
@@ -63,6 +66,7 @@
             width: 100%;
             margin-bottom: 0.5rem;
             padding: 0.3rem;
+            font-size: 0.9rem;
         }
 
         #info-display {
@@ -70,6 +74,7 @@
             padding: 0.5rem;
             margin-bottom: 0.5rem;
             color: black;
+            font-size: 0.9rem;
         }
 
         /* OpenLayers controls positioning fixes */
@@ -137,25 +142,32 @@
     <div id="fullscreen" class="fullscreen">
         <div id="map"></div>
         <div class="sidepanel">
+            <label for="zoomify-select">Base Map Layer:</label>
             <select id="zoomify-select">
                 <option value="">Select a map</option>
             </select>
 
-            <label>
-                <input type="checkbox" id="toggle-vector-layers" checked> Show Vector Layers
-            </label>
-
-            <button id="clear-button">Clear</button>
-            
-            <div id="info-display"></div>
-
+            <label for="optional-zoomify-select">Overlay Map Layer:</label>
             <select id="optional-zoomify-select">
                 <option value="">None</option>
             </select>
+            <label for="optional-zoomify-opacity">
+                Overlay Opacity: <input type="range" id="optional-zoomify-opacity" min="0" max="1" step="0.02" value="0.5">
+            </label>
+            
+            <hr style="margin-top: 10px; margin-bottom: 10px;">
+
 
             <label>
-                Opacity: <input type="range" id="optional-zoomify-opacity" min="0" max="1" step="0.02" value="0.5">
+                <input type="checkbox" id="toggle-vector-layers" checked> Show Group
             </label>
+
+            <hr style="margin-top: 10px; margin-bottom: 10px;">
+            
+            <div id="info-display"></div>
+            <button id="clear-button">Clear locked ISBN</button>
+
+            
         </div>
     </div>
 
