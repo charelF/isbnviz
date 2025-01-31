@@ -13,7 +13,7 @@ import {
     Stroke,
     Style,
 } from 'ol/style.js';
-import { posToNum } from './util';
+import { posToNum, getISBN } from './util';
 
 const N = 2 ** 16
 const tilesize = 4096
@@ -264,12 +264,6 @@ function clearLockedState() {
 }
 
 document.getElementById('clear-button').addEventListener('click', clearLockedState);
-
-
-function getISBN(index) {
-    const newIndex = index + 978_000_000_000;
-    return newIndex.toString();  // Convert the result to a string
-}
 
 // Get the checkbox element
 const toggleVectorLayersCheckbox = document.getElementById('toggle-vector-layers');

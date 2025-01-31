@@ -14,12 +14,12 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: Helvetica, Arial, sans-serif;
             line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem 5%;
         }
@@ -99,8 +99,15 @@
 
 <body>
     <div class="container">
-        <h1>Visualizing all ISBNS</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <section>
+            <h1>ISBN Visualization with Hilbert Curves</h1>
+            <p>
+              This website visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and 979 prefixes) using 
+              Hilbert curves. A Hilbert curve is a space-filling fractal that maps one-dimensional 
+              sequences into two-dimensional space while preserving locality. This allows similar ISBNs to be placed 
+              near each other, revealing structural patterns in the numbering system.
+            </p>
+          </section>
     </div>
 
     <div id="fullscreen" class="fullscreen">
