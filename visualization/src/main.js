@@ -148,7 +148,7 @@ function updateZoomify(folder) {
             zIndex: 0
         });
         currentZoomifyLayer.setZIndex(0)
-        vectorLayerAll.setZIndex(1)
+        vectorLayerAll.setZIndex(2)
         
         map.addLayer(currentZoomifyLayer);
     }
@@ -173,9 +173,11 @@ function updateOptionalZoomify(folder) {
                 extent: extent
             }),
             extent: extent,
-            zIndex: 2,
             opacity: parseFloat(document.getElementById('optional-zoomify-opacity').value)
         });
+        currentZoomifyLayer.setZIndex(0)
+        optionalZoomifyLayer.setZIndex(1)
+        vectorLayerAll.setZIndex(2)
         map.addLayer(optionalZoomifyLayer);
     }
 }
