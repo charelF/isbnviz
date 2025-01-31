@@ -79,9 +79,9 @@ fun main() {
 //    test()
 //    println(Hilbert(3).numToPos(-1))
 //    ISBNCountries().createGeoJSON()
-//    Imagen().main()
+    Imagen().main() // --> then run uv run tilemaker.py in python
 //    val h = Hilbert(16)
 //    println(h.posToNum(39000 to 400))
-    Publishers().main()
+//    Publishers().main()
 }
 

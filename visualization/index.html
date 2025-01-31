@@ -132,28 +132,33 @@
     <div class="container">
         <section>
             <h1>ISBN Visualization</h1>
-            <p>
-              This website visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and 979 prefixes) using a Hilbert curve space-filling fractal that maps a 1D sequence (all ISBNs in increasing order) onto a 2D space while preserving locality. This means that ISBNs numbers close together will be close to each other in this space and interesting patterns and structures emerge.
-            </p>
+            <p>This picture is 65,536 by 32,768 pixels. Each pixel represents a single ISBN. If the ISBN is contained in
+                Anna's Archive (AA), the pixel is <span
+                    style="color: rgb(100, 100, 255); font-weight: bold;">blue</span>. If we know that an ISBN has been
+                issued, but we don’t have a matching file, we make it <span
+                    style="color: rgb(255, 0, 0); font-weight: bold;">red</span>. The <span
+                    style="color: rgb(100, 0, 0); font-weight: bold;">The darker the red</span>, the more datasets
+                contain that ISBN. A white pixel means we have no information about that ISBN.</p>
         </section>
     </div>
 
     <div id="fullscreen" class="fullscreen">
         <div id="map"></div>
         <div class="sidepanel">
-            <label for="zoomify-select">Base Map Layer:</label>
+            <label for="zoomify-select">Base Dataset:</label>
             <select id="zoomify-select">
                 <option value="">Select a map</option>
             </select>
 
-            <label for="optional-zoomify-select">Overlay Map Layer:</label>
+            <label for="optional-zoomify-select">Overlay Dataset:</label>
             <select id="optional-zoomify-select">
                 <option value="">None</option>
             </select>
             <label for="optional-zoomify-opacity">
-                Overlay Opacity: <input type="range" id="optional-zoomify-opacity" min="0" max="1" step="0.02" value="0.5">
+                Overlay Opacity: <input type="range" id="optional-zoomify-opacity" min="0" max="1" step="0.02"
+                    value="0.5">
             </label>
-            
+
             <div></div>
 
             <label>
@@ -164,21 +169,59 @@
 
 
             <label>ISBN:</label>
-            <div id="isbn-display" style="background-color: white;">-</div>
+            <div id="isbn-display" style="background-color: white;"></div>
 
             <label>Group:</label>
-            <div id="group-display" style="background-color: white;">-</div>
-
-            <button id="clear-button">Clear locked ISBN</button>
+            <div id="group-display" style="background-color: white;"></div>
 
             <label>Link:</label>
-            <div id="link-display"></div>
+            <div id="link-display" style="background-color: white;"></div>
+
+            <button id="clear-button">Clear locked ISBN</button>
 
         </div>
     </div>
 
     <div class="container">
-        <p>This is some text below the map.</p>
+        <section>
+            <p>
+                The map visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and 979
+                prefixes) using a Hilbert curves, which is a space-filling fractal that maps a 1D sequence (in this
+                case, all ISBNs in increasing order) onto a 2D space while preserving locality. This means that ISBNs
+                which are numerically close together will also be clustered together in this map. As ISBNs are assigned
+                as continuous ranges to countries and publishers, interesting patterns and structures emerge.
+            </p>
+            <p>
+                In addition, the map allows to overlay another map to compare datasets and also to overlay
+                country/language groups on top.
+            </p>
+            <p>
+                When clicking on a pixel, the ISBN, country/lanuage, and a link to Anna's Archive are presented.
+            </p>
+        </section>
+        <div></div>
+        <section>
+            <h2>Credits</h2>
+            <ul>
+                <li><a href="https://annas-archive.org/" target="_blank">Anna's Archive</a> for the datasets, hosting
+                    the contest and overall support.</li>
+                <li><a href="https://openlayers.org/" target="_blank">OpenLayers</a> for a really nice mapping library
+                    with lots of great examples.</li>
+                <li><a href="https://hjg.com.ar/pngj/" target="_blank">PNGJ</a> for allowing me to save very large PNGs
+                </li>
+                <li>Lots of other awesome open source software that I will continue to link here once I parse through
+                    the code I wrote.</li>
+                <li style="color: lightgrey;">ChatGPT, Claude.ai, Deepseek and Cursor</li>
+            </ul>
+        </section>
+        <div></div>
+        <section>
+            <p>
+                Source code: <a href="https://github.com/charelf/isbnviz"
+                    target="_blank">https://github.com/charelf/isbnviz</a>
+            </p>
+
+        </section>
     </div>
 
     <script type="module" src="src/main.js"></script>

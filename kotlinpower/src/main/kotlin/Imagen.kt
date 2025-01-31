@@ -105,7 +105,7 @@ class Imagen {
     fun processCombinedImage() {
         // code duplication but too lazy to fix rn
         val dir = Paths.get("../data/isbns_codes_binary")
-        val outputFile = File("../data/isbn_pngs/combined.png")
+        val outputFile = File("../data/isbn_pngs/combined3.png")
         val globPattern = "*.bin"
         val paths = Files.newDirectoryStream(dir, globPattern).use { stream ->
             stream.map { "../data/isbns_codes_binary/${it.fileName}" }
@@ -145,20 +145,22 @@ class Imagen {
         val imgInfo = ImageInfo(width, height, 8, false, false, false)
         val pngWriter = PngWriter(outputFile, imgInfo)
 
+        var i = 0
         for (row in image) {
+            println(i++)
             val imageLine = ImageLineInt(imgInfo)
             for (col in row.indices) {
                 val colInt = row[col].toInt()
-                if (colInt == -1) { // Red
+                if (colInt == -1) { 
                     imageLine.scanline[col * 3] = 100     // Red channel
                     imageLine.scanline[col * 3 + 1] = 100   // Green channel
                     imageLine.scanline[col * 3 + 2] = 255   // Blue channel
                 } else if (colInt != 0) {
-                    val decrease = (255 - (colInt * 255 / maxValue)).toInt()   // Decrease as colInt increases
-//                    val increase = (colInt * 255 / maxValue).toInt()          // Increase as colInt increases
-                    imageLine.scanline[col * 3] = decrease      // Red channel
-                    imageLine.scanline[col * 3 + 1] = 0    // Green channel
-                    imageLine.scanline[col * 3 + 2] = 0 // Blue channel
+                    val decrease = (155 - (colInt * 155 / maxValue)).toInt()   // Decrease as colInt increases
+                    val increase = (colInt * 155 / maxValue).toInt()          // Increase as colInt increases
+                    imageLine.scanline[col * 3] = 100 + decrease      // Red channel
+                    imageLine.scanline[col * 3 + 1] = 100    // Green channel
+                    imageLine.scanline[col * 3 + 2] = 100 // Blue channel
                 } else {
                     imageLine.scanline[col * 3] = 255     // Red channel
                     imageLine.scanline[col * 3 + 1] = 255 // Green channel

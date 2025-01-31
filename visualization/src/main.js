@@ -62,24 +62,25 @@ const map = new Map({
 });
 
 const zoomifyFolders = [
-    'combined.png',
-    'cadal_ssno.bin.png',
-    'cerlalc.bin.png',
-    'duxiu_ssid.bin.png',
-    'edsebk.bin.png',
-    'gbooks.bin.png',
-    'goodreads.bin.png',
-    'ia.bin.png',
-    'isbndb.bin.png',
-    'isbngrp.bin.png',
-    'libby.bin.png',
-    'md5.bin.png',
-    'nexusstc.bin.png',
-    'nexusstc_download.bin.png',
-    'oclc.bin.png',
-    'ol.bin.png',
-    'rgb.bin.png',
-    'trantor.bin.png',
+    'combined_inv',
+    'combined',
+    'cadal_ssno',
+    'cerlalc',
+    'duxiu_ssid',
+    'edsebk',
+    'gbooks',
+    'goodreads',
+    'ia',
+    'isbndb',
+    'isbngrp',
+    'libby',
+    'md5',
+    'nexusstc',
+    'nexusstc_download',
+    'oclc',
+    'ol',
+    'rgb',
+    'trantor',
 ];
 
 // Initialize the dropdown
@@ -134,7 +135,7 @@ function updateZoomify(folder) {
         // Create and add new zoomify layer
         currentZoomifyLayer = new TileLayer({
             source: new Zoomify({
-                url: `zoomify/${folder}/{TileGroup}/{z}-{x}-{y}.png`,
+                url: `zoomify/${folder}.bin.png/{TileGroup}/{z}-{x}-{y}.png`,
                 size: [N, N / 2],
                 crossOrigin: 'anonymous',
                 projection: projection,
@@ -162,7 +163,7 @@ function updateOptionalZoomify(folder) {
     if (folder) {
         optionalZoomifyLayer = new TileLayer({
             source: new Zoomify({
-                url: `zoomify/${folder}/{TileGroup}/{z}-{x}-{y}.png`,
+                url: `zoomify/${folder}.bin.png/{TileGroup}/{z}-{x}-{y}.png`,
                 size: [N, N / 2],
                 crossOrigin: 'anonymous',
                 projection: projection,

@@ -1,7 +1,8 @@
 import pyvips
 import glob
 
-paths = glob.glob("../data/isbn_pngs/*")
+# paths = glob.glob("../data/isbn_pngs/*")
+paths = glob.glob("../data/isbn_pngs/combined3*")
 
 for path in paths:
     print(path)
