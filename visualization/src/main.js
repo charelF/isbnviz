@@ -42,7 +42,14 @@ const vectorLayerAll = new VectorLayer({
 
 const map = new Map({
     layers: [vectorLayerAll],
-    controls: defaultControls().extend([new FullScreen()]),
+    controls: defaultControls({
+        zoom: false,
+        zoomOptions: {
+            target: document.getElementById('map')
+        }
+    }).extend([new FullScreen({
+        source: 'fullscreen',
+    })]),
     target: 'map',
     view: new View({
         projection: projection,
