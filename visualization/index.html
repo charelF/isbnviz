@@ -60,7 +60,8 @@
         /* Form controls in sidepanel */
         .sidepanel select,
         .sidepanel button,
-        .sidepanel label {
+        .sidepanel label,
+        .sidepanel div {
             width: 100%;
             margin-bottom: 0.5rem;
             padding: 0.3rem;
@@ -72,7 +73,22 @@
             padding: 0.5rem;
             margin-bottom: 0.5rem;
             color: black;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.2rem;
+        }
+
+        .info-row label {
+            color: #666;
+            margin-right: 0.5rem;
+        }
+
+        #link-display {
+            margin-top: 0.3rem;
         }
 
         /* OpenLayers controls positioning fixes */
@@ -153,19 +169,25 @@
                 Overlay Opacity: <input type="range" id="optional-zoomify-opacity" min="0" max="1" step="0.02" value="0.5">
             </label>
             
-            <hr style="margin-top: 10px; margin-bottom: 10px;">
-
+            <div></div>
 
             <label>
-                <input type="checkbox" id="toggle-vector-layers" checked> Show Group
+                <input type="checkbox" id="toggle-vector-layers" checked> Show Groups
             </label>
 
-            <hr style="margin-top: 10px; margin-bottom: 10px;">
-            
-            <div id="info-display"></div>
+            <div></div>
+
+
+            <label>ISBN:</label>
+            <div id="isbn-display" style="background-color: white;">-</div>
+
+            <label>Group:</label>
+            <div id="group-display" style="background-color: white;">-</div>
+
             <button id="clear-button">Clear locked ISBN</button>
 
-            
+            <div id="link-display"></div>
+
         </div>
     </div>
 

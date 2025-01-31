@@ -203,7 +203,7 @@ let highlight
 
 // Function to display feature information
 const displayFeatureInfo = function (event, isClick = false) {
-    if (isLocked && !isClick) return; // Ignore mouse movements if locked
+    if (isLocked && !isClick) return;
 
     const pixel = event.pixel;
     const coordinates = event.coordinate;
@@ -215,16 +215,21 @@ const displayFeatureInfo = function (event, isClick = false) {
     var y = -Math.round(coordinates[1]) + 32768;
     var i = posToNum(y, x);
     var isbn = getISBN(i);
-    const infoDisplay = document.getElementById('info-display');
+
+    console.log(x, y)
+
+    document.getElementById('isbn-display').textContent = isbn;
+    document.getElementById('group-display').textContent = feature?.get('NAME') ?? '-';
 
     if (isClick) {
         // Lock the info and feature
         isLocked = true;
         lockedFeature = feature;
         lockedCoordinates = coordinates;
-        infoDisplay.innerHTML = `x=${x.toString().padStart(5, '0')} y=${y.toString().padStart(5, '0')} i=${i} isbn=${isbn} \n ${feature?.get('NAME') ?? '-'}<br><a href="https://annas-archive.org/search?q=${isbn}" target="_blank">Open in Anna's Archive</a>`;
-    } else {
-        infoDisplay.innerText = `x=${x.toString().padStart(5, '0')} y=${y.toString().padStart(5, '0')} i=${i} isbn=${isbn} \n ${feature?.get('NAME') ?? '-'}`;
+        document.getElementById('link-display').innerHTML = 
+            `<a href="https://annas-archive.org/search?q=${isbn}" target="_blank">https://annas-archive.org/search?q=${isbn}</a>`;
+    } else if (!isLocked) {
+        document.getElementById('link-display').innerHTML = '';
     }
 
     if (feature !== highlight) {
@@ -256,7 +261,9 @@ function clearLockedState() {
     isLocked = false;
     lockedFeature = null;
     lockedCoordinates = null;
-    document.getElementById('info-display').innerText = '';
+    document.getElementById('isbn-display').textContent = '-';
+    document.getElementById('group-display').textContent = '-';
+    document.getElementById('link-display').innerHTML = '';
     if (highlight) {
         vectorLayerHighlight.getSource().removeFeature(highlight);
         highlight = null;
