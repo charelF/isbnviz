@@ -14,12 +14,12 @@
         }
 
         body {
-            font-family: Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif;
             line-height: 1.3;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
         }
@@ -132,12 +132,11 @@
     <div class="container">
         <section>
             <h1>ISBN Visualization</h1>
-            <p>This picture is 65,536 by 32,768 pixels. Each pixel represents a single ISBN. If the ISBN is contained in
+            <p>This picture is 65,536×32,768 pixels. Each pixel represents a single ISBN. If the ISBN is contained in
                 Anna's Archive (AA), the pixel is <span
                     style="color: rgb(100, 100, 255); font-weight: bold;">blue</span>. If we know that an ISBN has been
                 issued, but we don’t have a matching file, we make it <span
-                    style="color: rgb(255, 100, 100); font-weight: bold;">red</span>. A white pixel means we have no
-                information about that ISBN.</p>
+                    style="color: rgb(255, 100, 100); font-weight: bold;">red</span>. A white pixel means that the ISBN is unknown by AA or does not exist.</p>
         </section>
     </div>
 
@@ -185,9 +184,9 @@
         <section>
             <h2 style="margin-bottom: 1rem;">Features</h2>
             <ul>
-                <li>The map visualizes all <a href="https://en.wikipedia.org/wiki/ISBN">ISBN-13</a> identifiers (978 and
+                <li>The map visualizes all ISBN-13 identifiers (978 and
                     979
-                    prefixes) using a Hilbert curves, which is a space-filling fractal that maps a 1D sequence (in this
+                    prefixes) using a Hilbert curve, which is a space-filling fractal that maps a 1D sequence (in this
                     case, all ISBNs in increasing order) onto a 2D space while preserving locality. This means that
                     ISBNs
                     which are numerically close together will also be clustered together in this map. As ISBNs are
@@ -195,26 +194,29 @@
                     as continuous ranges to countries and publishers, interesting patterns and structures emerge.</li>
                 <li>For the combined dataset, the darker the red, the more datasets contain the ISBN (but AA doesn't).
                     For the combined_inv dataset, the opposite is true, the darker the red, the less datasets contain
-                    the ISBN (again AA doesn't). In both cases, blue means that AA has the book archived.</li>
+                    the ISBN (again AA doesn't). In both cases, blue means that AA has the ISBN linked to an archived book.</li>
                 <li>In addition to the base dataset, an overlay dataset can be toggled which allows to compare datasets
                     by changing the opacity of the overlay</li>
                 <li>The country/language group to which a given ISBN belongs can be shown as a polygon vector overlay.
                 </li>
                 <li>When clicking on a pixel, the ISBN, country/lanuage, and a link to Anna's Archive are presented.
                 </li>
+                <li>On the frontend, the visualization of each dataset is done via image tiling using Openlayers and a statically hosted zoomify folder. This ensures that the original 65,536×32,768 (138.9 MB) does not need to be loaded all at once but is split up into 172 4096x4096 tiles (total 178,5 MB, biggest single tile 10 MB).</li>
             </ul>
         </section>
         <section>
             <h2 style="margin: 1rem 0;">Credits</h2>
             <ul>
                 <li><a href="https://annas-archive.org/" target="_blank">Anna's Archive</a> for the datasets, hosting
-                    the contest and overall support.</li>
+                    <a href="https://annas-archive.org/blog/all-isbns.html" target="_blank">the contest</a> and overall support.</li>
                 <li><a href="https://openlayers.org/" target="_blank">OpenLayers</a> for a really nice mapping library
                     with lots of great examples.</li>
-                <li><a href="https://hjg.com.ar/pngj/" target="_blank">PNGJ</a> for allowing me to save very large PNGs.
+                <li><a href="https://hjg.com.ar/pngj/" target="_blank">PNGJ</a> for a high performance and large-size PNG library. The original combined_inv.png contains <a href="https://en.wikipedia.org/wiki/2,147,483,647#In_computing" target="_blank">2,147,483,648</a> pixels which is just one too much for Java Image I/O (which was also very slow).
                 </li>
+                <li><a href="https://libvips.github.io/libvips/" target="_blank">libvips/pyvips</a> for high performance image processing, allowing me to transform a PNG into zoomify tiles.</li>
                 <li>Lots of other awesome open source software that I will continue to link here once I parse through
                     the code I wrote.</li>
+                <li><a href="https://pages.cloudflare.com/" target="_blank">Cloudflare Pages</a> for its very generous free tier.</li>
                 <li style="color: lightgrey;">ChatGPT, Claude.ai, Deepseek and Cursor</li>
             </ul>
         </section>
