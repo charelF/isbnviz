@@ -1,5 +1,5 @@
 > [!NOTE]
-> The [`submission`](https://github.com/charelF/isbnviz/tree/submissions) branch  is locked to the last commit it did before the deadline.
+> The [`submission`](https://github.com/charelF/isbnviz/tree/submission) branch  is locked to the last commit it did before the deadline.
 
 # ISBN visualization
 
