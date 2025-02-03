@@ -1,6 +1,9 @@
 # ISBN visualization
 
-My submission for the ISBN visualization contest hosted by Anna's Archive. The [`submission`](https://github.com/charelF/isbnviz/tree/submissions) branch  is locked to the last commit it did before the deadline.
+My submission for the ISBN visualization contest hosted by Anna's Archive. 
+
+> [!NOTE]
+> The [`submission`](https://github.com/charelF/isbnviz/tree/submissions) branch  is locked to the last commit it did before the deadline.
 
 More explanations can be found on the project page at https://isbnviz.pages.dev
 
