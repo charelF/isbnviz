@@ -3,6 +3,10 @@
 
 # ISBN visualization
 
+<a href="https://isbnviz.pages.dev">
+  <img src="https://github.com/user-attachments/assets/2217ee64-7f4d-4f44-9769-58d2460e999a" alt="Screenshot">
+</a>
+
 My submission for the ISBN visualization contest hosted by Anna's Archive. Hosted demo with more explanations available at [**isbnviz.pages.dev**](https://isbnviz.pages.dev)
 
 ## Overview
