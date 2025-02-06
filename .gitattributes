@@ -1,1 +1,1 @@
-*.ipynb  filter=clean_ipynb
+*.ipynb  linguist-vendored
