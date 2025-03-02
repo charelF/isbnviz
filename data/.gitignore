@@ -1,2 +1,11 @@
 *
 !.gitignore
+!*sample*  
+# this is the cadal_ssno dataset since its small - nice to have as sample when cloning the repo
+# other files that are gitignored:
+# aa_isbn13_codes_20241204T185335Z.benc.zst
+# annas_archive_meta__aacid__isbngrp_records__20240920T194930Z--20240920T194930Z.jsonl.seekable.zst
+# isbn_pngs (folder)
+# isbngrp.csv
+# isbngrp.geojson
+# isbns_codes_binary (folder)
